@@ -65,7 +65,7 @@ class Marcianos {
 
 
 class Bala {
-    constructor(id, x = 56, y = 40, tamannor = 5, coolor = "red", vely = 5) {
+    constructor(id, x = 56, y = 40, tamannor = 5, coolor = "red", vely = -5) {
 
 
         // CIRCULO 
@@ -87,13 +87,13 @@ class Bala {
 
         this.moverbala = setInterval(() => {
 
-            if (this.y >= this.anchurac - 20) {
-                this.vely = -this.vely;
-            }
-            if (this.y <= 20) {
+            //if (this.y >= this.anchurac - 20) {
+             //   this.vely = -this.vely;
+            //}
+           // if (this.y <= 20) {
 
-                this.vely = -this.vely;
-            }
+             //   this.vely = -this.vely;
+           // }
             this.y = this.y + this.vely;
             var circulo = document.getElementById(this.id)
             circulo.setAttribute("cy", this.y);
@@ -105,8 +105,6 @@ class Bala {
 
 
 }
-
-
 
 
 
@@ -198,8 +196,28 @@ class jugador {
 
 
 
+var listaMarcianos=[]
+function crearMarcianos(numMar=10){
+    
+    var idmarciano='id'
+    var conta=0
+    var numy=20;
+    
+    do {
+        var numx=40;
+        while(numx<360){
+            conta++ 
+            numMar--
+            numx=numx+40
+            listaMarcianos.push(new Marcianos(idmarciano+conta,numx,numy))
+        }
+        numy=numy+30
+        
+        
+    } while (numMar>=0);
+};
 
-
+crearMarcianos()
 
 
 
@@ -211,7 +229,7 @@ class jugador {
 class Juego {
     constructor() {
         this.jugador = new jugador("player")
-        this.mar = [new Marcianos("id1"), new Marcianos("id2", 60, 20)];
+        this.mar = listaMarcianos;
         this.jugar = setInterval(() => {
 
             this.chocar();
