@@ -224,17 +224,39 @@ crearMarcianos()
 
 
 
-
+var contadormover=0
 
 class Juego {
     constructor() {
         this.jugador = new jugador("player")
         this.mar = listaMarcianos;
         this.jugar = setInterval(() => {
-
             this.chocar();
-
+            this.mover()
         }, 20)
+    }
+
+    mover(){
+        var listamov =this.mar
+        contadormover++
+        
+        if (contadormover==5){
+            listamov.forEach(element => {
+                element.mover(40,3)
+                console.log (element)
+            })
+        }/*if(contadormover==10){
+            for (marci of listamov){
+                marci.mover(40,3)
+            }
+        }if(contadormover==15){
+            for (marci of listamov){
+                marci.mover(40,2)
+            }
+        }if(contadormover>20){
+            contadormover=0
+        }*/
+
     }
 
     chocar() {
