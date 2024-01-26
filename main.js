@@ -3,7 +3,7 @@
 class Marcianos {
 
     constructor(id, x = 20, y = 20) {
-        //CUADRADO 
+        //CUADRADO construlle el cuerpo del marcianito
         this.elementoCuadrado = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         this.elementoCuadrado.setAttribute("id", id);
         this.carid = id
@@ -50,25 +50,11 @@ class Marcianos {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Bala {
     constructor(id, x = 56, y = 40, tamannor = 5, coolor = "red", vely = -5) {
 
 
-        // CIRCULO 
+        // CIRCULO cuerpo de la bala 
         this.elemento = document.createElementNS("http://www.w3.org/2000/svg", "circle")
         this.elemento.setAttribute("cx", x);
         this.elemento.setAttribute("cy", y);
@@ -86,7 +72,7 @@ class Bala {
         //<rect x="400" y="50" width="400" height="300" fill="black" stroke="red" stroke-width="20" />
 
         this.moverbala = setInterval(() => {
-
+            // movimiento de la vala 
             //if (this.y >= this.anchurac - 20) {
              //   this.vely = -this.vely;
             //}
@@ -106,16 +92,10 @@ class Bala {
 
 }
 
-
-
-
-
-
-
 class jugador {
 
     constructor(id, x = 20, y = 480, eventoss = ["d", "a", "s"]) {
-        //CUADRADO 
+        //CUADRADO forma del cuerpo del jugador 
         this.balas = [];
         this.contador = 0;
         this.elementoCuadrado = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -135,6 +115,7 @@ class jugador {
         //this.elementoCuadrado.setAttribute("stroke","black");
         //this.elementoCuadrado.setAttribute("stroke-width",20);
         document.getElementById("lienzo").appendChild(this.elementoCuadrado);
+        // set de movimientos y acciones del jugador 
         window.addEventListener("keydown", () => {
             if (window.event.key == this.eventos[0]) {
                 this.accion = "derecha";
@@ -146,6 +127,7 @@ class jugador {
                 this.accion = "disparo";
             }
         });
+        //disparar evento 
         window.addEventListener("keypress", () => {
             if (window.event.key == this.eventos[2]) {
                 this.balas.push(new Bala(this.contador, this.carx + 10, this.cary));
@@ -153,6 +135,7 @@ class jugador {
 
             }
         });
+        // evento mover a derecha e izquierda y parar cuando llege al limite de la pantalla 
         window.addEventListener("keyup", () => { this.accion = "parar" });
         this.mover =setInterval(() => {
             if (this.accion == "izquierda") {
@@ -174,35 +157,19 @@ class jugador {
 
         }, 20)
     }
-
-
-
-   
-        
-    
-
-
-
-
-
-
     parar() {
         this.accion = "parar";
     }
 }
 
 
-
-
-
-
 var listaMarcianos=[]
 function crearMarcianos(numMar=10){
-    
-    var idmarciano='id'
-    var conta=0
+    //funcion variable que crea un numero de marcianitos 
+    var idmarciano='id';
+    var conta=0;
     var numy=20;
-    
+    listaMarcianos=[];
     do {
         var numx=40;
         while(numx<360){
@@ -220,12 +187,15 @@ function crearMarcianos(numMar=10){
 crearMarcianos()
 
 
+<<<<<<< HEAD
 
 
 
 
 var contadormover=0
 
+=======
+>>>>>>> 894c9d2067fe050dad5dbc2c9e640dd61dbe2af3
 class Juego {
     constructor() {
         this.jugador = new jugador("player")
