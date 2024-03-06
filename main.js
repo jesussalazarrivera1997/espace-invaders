@@ -17,7 +17,6 @@ class Marcianos {
         this.alto = 10
         this.elementoCuadrado.setAttribute("fill", "gray");
         this.accion = "parar";
-        console.log(this.elementoCuadrado)
         document.getElementById("lienzo").appendChild(this.elementoCuadrado);
     }
 
@@ -26,7 +25,6 @@ class Marcianos {
         //1. mueve a la derecha
         //2. mueve a la izquierda
         //3. mueve hacia abajo
-        console.log(direccion)
         var marciano = document.getElementById(this.carid);
         switch (direccion) {
             case 1:
@@ -103,8 +101,6 @@ class jugador {
         this.alto = 60
         this.elementoCuadrado.setAttribute("fill", "black");
         this.accion = "parar";
-        //this.elementoCuadrado.setAttribute("stroke","black");
-        //this.elementoCuadrado.setAttribute("stroke-width",20);
         document.getElementById("lienzo").appendChild(this.elementoCuadrado);
         // set de movimientos y acciones del jugador 
         window.addEventListener("keydown", () => {
@@ -182,6 +178,7 @@ var contadormover=0
 
 class Juego {
     constructor() {    
+        //crea un jugador, los marcianitos, inicia el intervalo del juego
         this.jugador = new jugador("player")
         this.mar = listaMarcianos;
         this.jugar = setInterval(() => {
@@ -191,33 +188,34 @@ class Juego {
     }
 
     mover(){
+        //movimiento de los marcianitos 
         var listamov =this.mar
         contadormover++
-         if(contadormover==100){
+         if(contadormover==10){
             listamov.forEach(element => {
                 element.mover(40,2)
             })
         }
-         if(contadormover==150){
+         if(contadormover==15){
             listamov.forEach(element => {
                 element.mover(40,1)
             })
         }
-        if(contadormover==200){
+        if(contadormover==20){
             listamov.forEach(element => {
                 element.mover(40,1)
             })
         }
-        if(contadormover==250){
+        if(contadormover==25){
             listamov.forEach(element => {
                 element.mover(40,2)
             })
-        }if (contadormover==350){
+        }if (contadormover==35){
             listamov.forEach(element => {
                 element.mover(40,3)
             })
         }
-        if(contadormover>400){
+        if(contadormover>40){
             contadormover=0
         }
 
@@ -227,29 +225,36 @@ class Juego {
         var contenedorValas = this.jugador.balas;
         var contenedorMarcianos = this.mar;
         if (contenedorValas!=[]) {
-        for (var bala of contenedorValas) {
-            var puntos = [[(bala.y - bala.radio), bala.x], [(bala.y + bala.radio), bala.x], [bala.y, (bala.x - bala.radio)], [bala.y, (bala.x + bala.radio)]]
-            for (var marciano of contenedorMarcianos) {
-                for (var punto of puntos) {
-                    // la bala choca y se elimina esta y el marciano
-                    if ((punto[0] >= marciano.cary && punto[0] <= (marciano.cary + marciano.alto)) && (punto[1] >= marciano.carx && punto[1] <= (marciano.carx + marciano.acho))) {
-                    document.getElementById(bala.id).remove();
-                    document.getElementById(marciano.carid).remove();
-                    var i = this.jugador.balas.indexOf(bala);
-                    clearInterval(this.jugador.balas[i].moverbala)
-                    this.jugador.balas.splice(i, 1);
-                    var u = this.mar.indexOf(marciano);
-                    this.mar.splice(u, 1);
-                    }
-                }
-                if(bala.y<=0){
-                    //la bala sale del cuadro y se elimina
-                    document.getElementById(bala.id).remove();
-                    var i = this.jugador.balas.indexOf(bala);
-                    clearInterval(this.jugador.balas[i].moverbala);
-                    this.jugador.balas.splice(i, 1);
-                }
-                
+        for (var marciano of contenedorMarcianos) {i
+            if (marciano.cary>=490){
+                     alert("Has perdido")
+                     clearInterval(this.jugar)
+                      break;
+            }
+            for (var bala of contenedorValas) {
+             var puntos = [[(bala.y - bala.radio), bala.x], [(bala.y + bala.radio), bala.x], [bala.y, (bala.x - bala.radio)], [bala.y, (bala.x + bala.radio)]]
+            
+                   
+                  if(bala.y<=0){
+                      //la bala sale del cuadro y se elimina
+                        document.getElementById(bala.id).remove();
+                        var i = this.jugador.balas.indexOf(bala);
+                       clearInterval(this.jugador.balas[i].moverbala);
+                       this.jugador.balas.splice(i, 1);
+                       break;
+                 }
+                 for (var punto of puntos) {
+                       // la bala choca y se elimina esta y el marciano
+                       if ((punto[0] >= marciano.cary && punto[0] <= (marciano.cary + marciano.alto)) && (punto[1] >= marciano.carx && punto[1] <= (marciano.carx + marciano.acho))) {
+                       document.getElementById(bala.id).remove();
+                        document.getElementById(marciano.carid).remove();
+                        var i = this.jugador.balas.indexOf(bala);
+                        clearInterval(this.jugador.balas[i].moverbala)
+                        this.jugador.balas.splice(i, 1);
+                        var u = this.mar.indexOf(marciano);
+                        this.mar.splice(u, 1);
+                        }
+                 }
             }
         }
         if (this.mar.length == 0) {
