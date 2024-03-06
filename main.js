@@ -17,30 +17,29 @@ class Marcianos {
         this.alto = 10
         this.elementoCuadrado.setAttribute("fill", "gray");
         this.accion = "parar";
-        //this.elementoCuadrado.setAttribute("stroke","black");
-        //this.elementoCuadrado.setAttribute("stroke-width",20);
+        console.log(this.elementoCuadrado)
         document.getElementById("lienzo").appendChild(this.elementoCuadrado);
     }
 
-    mover(cantidad = 40, direccion = 3) {
+    mover(cantidad = 40, direccion) {
         //las direcciones se dan con cuatro numeros  y la cantidad la distancia
         //1. mueve a la derecha
         //2. mueve a la izquierda
         //3. mueve hacia abajo
-
+        console.log(direccion)
         var marciano = document.getElementById(this.carid);
         switch (direccion) {
             case 1:
                 this.carx = this.carx + cantidad;
-                marciano.setAttribute("cx", this.carx);
+                marciano.setAttribute("x", this.carx);
                 break;
             case 2:
                 this.carx = this.carx - cantidad;
-                marciano.setAttribute("cx", this.carx);
+                marciano.setAttribute("x", this.carx);
                 break;
             case 3:
-                this.carx = this.cary + cantidad;
-                marciano.setAttribute("cy", this.cary);
+                this.cary = this.cary + cantidad;
+                marciano.setAttribute("y", this.cary);
                 break;
         }
 
@@ -69,17 +68,9 @@ class Bala {
         this.y = y;
         this.x = x
         this.vely = vely;
-        //<rect x="400" y="50" width="400" height="300" fill="black" stroke="red" stroke-width="20" />
 
         this.moverbala = setInterval(() => {
             // movimiento de la vala 
-            //if (this.y >= this.anchurac - 20) {
-             //   this.vely = -this.vely;
-            //}
-           // if (this.y <= 20) {
-
-             //   this.vely = -this.vely;
-           // }
             this.y = this.y + this.vely;
             var circulo = document.getElementById(this.id)
             circulo.setAttribute("cy", this.y);
@@ -202,29 +193,37 @@ class Juego {
     mover(){
         var listamov =this.mar
         contadormover++
-        
-        if (contadormover==5){
+         if(contadormover==100){
+            listamov.forEach(element => {
+                element.mover(40,2)
+            })
+        }
+         if(contadormover==150){
+            listamov.forEach(element => {
+                element.mover(40,1)
+            })
+        }
+        if(contadormover==200){
+            listamov.forEach(element => {
+                element.mover(40,1)
+            })
+        }
+        if(contadormover==250){
+            listamov.forEach(element => {
+                element.mover(40,2)
+            })
+        }if (contadormover==350){
             listamov.forEach(element => {
                 element.mover(40,3)
-                console.log (element)
             })
-        }/*if(contadormover==10){
-            for (marci of listamov){
-                marci.mover(40,3)
-            }
-        }if(contadormover==15){
-            for (marci of listamov){
-                marci.mover(40,2)
-            }
-        }if(contadormover>20){
+        }
+        if(contadormover>400){
             contadormover=0
-        }*/
+        }
 
     }
 
     chocar() {
-        var com1 = 0;
-        var com2 = 0;
         var contenedorValas = this.jugador.balas;
         var contenedorMarcianos = this.mar;
         if (contenedorValas!=[]) {
@@ -232,12 +231,8 @@ class Juego {
             var puntos = [[(bala.y - bala.radio), bala.x], [(bala.y + bala.radio), bala.x], [bala.y, (bala.x - bala.radio)], [bala.y, (bala.x + bala.radio)]]
             for (var marciano of contenedorMarcianos) {
                 for (var punto of puntos) {
+                    // la bala choca y se elimina esta y el marciano
                     if ((punto[0] >= marciano.cary && punto[0] <= (marciano.cary + marciano.alto)) && (punto[1] >= marciano.carx && punto[1] <= (marciano.carx + marciano.acho))) {
-                        com1++
-                    }
-                }
-                console.log(this.jugador.balas)
-                if (com1 >= 1) {
                     document.getElementById(bala.id).remove();
                     document.getElementById(marciano.carid).remove();
                     var i = this.jugador.balas.indexOf(bala);
@@ -245,8 +240,16 @@ class Juego {
                     this.jugador.balas.splice(i, 1);
                     var u = this.mar.indexOf(marciano);
                     this.mar.splice(u, 1);
+                    }
                 }
-                com1 = 0
+                if(bala.y<=0){
+                    //la bala sale del cuadro y se elimina
+                    document.getElementById(bala.id).remove();
+                    var i = this.jugador.balas.indexOf(bala);
+                    clearInterval(this.jugador.balas[i].moverbala);
+                    this.jugador.balas.splice(i, 1);
+                }
+                
             }
         }
         if (this.mar.length == 0) {
