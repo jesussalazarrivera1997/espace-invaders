@@ -187,17 +187,10 @@ function crearMarcianos(numMar=10){
 crearMarcianos()
 
 
-<<<<<<< HEAD
-
-
-
-
 var contadormover=0
 
-=======
->>>>>>> 894c9d2067fe050dad5dbc2c9e640dd61dbe2af3
 class Juego {
-    constructor() {
+    constructor() {    
         this.jugador = new jugador("player")
         this.mar = listaMarcianos;
         this.jugar = setInterval(() => {
